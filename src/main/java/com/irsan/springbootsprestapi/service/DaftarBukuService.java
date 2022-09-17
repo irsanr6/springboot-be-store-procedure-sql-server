@@ -2,16 +2,18 @@ package com.irsan.springbootsprestapi.service;
 
 import com.irsan.springbootsprestapi.model.DaftarBukuLihatRequest;
 import com.irsan.springbootsprestapi.model.DaftarBukuSimpanRequest;
-import org.springframework.http.ResponseEntity;
+import com.irsan.springbootsprestapi.utils.BaseResponse;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author: Irsan Ramadhan
  * @email: irsan.ramadhan@iconpln.co.id
  */
 public interface DaftarBukuService {
-    ResponseEntity<?> daftarBukuSimpan(DaftarBukuSimpanRequest request);
+    BaseResponse<?> daftarBukuSimpan(DaftarBukuSimpanRequest request, HttpServletRequest httpRequest);
 
-    ResponseEntity<?> daftarBukuLihat(DaftarBukuLihatRequest request);
+    BaseResponse<?> daftarBukuLihat(DaftarBukuLihatRequest request, HttpServletRequest httpRequest);
 
-    ResponseEntity<?> daftarBukuLihatv2(DaftarBukuLihatRequest request);
+    BaseResponse<?> daftarBukuLihatv2(DaftarBukuLihatRequest request, HttpServletRequest httpRequest);
 }

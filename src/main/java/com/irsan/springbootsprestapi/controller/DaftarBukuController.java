@@ -3,12 +3,14 @@ package com.irsan.springbootsprestapi.controller;
 import com.irsan.springbootsprestapi.model.DaftarBukuLihatRequest;
 import com.irsan.springbootsprestapi.model.DaftarBukuSimpanRequest;
 import com.irsan.springbootsprestapi.service.DaftarBukuService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import com.irsan.springbootsprestapi.utils.BaseResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author: Irsan Ramadhan
@@ -18,22 +20,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/daftarBuku")
 public class DaftarBukuController {
 
-    @Autowired
+    @Resource
     private DaftarBukuService daftarBukuService;
 
     @PostMapping("/bukuSimpan")
-    public ResponseEntity<?> daftarBukuSimpan(@RequestBody DaftarBukuSimpanRequest request) {
-        return daftarBukuService.daftarBukuSimpan(request);
+    public BaseResponse<?> daftarBukuSimpan(@RequestBody DaftarBukuSimpanRequest request,
+                                            HttpServletRequest httpRequest) {
+        return daftarBukuService.daftarBukuSimpan(request, httpRequest);
     }
 
     @PostMapping("/bukuLihat")
-    public ResponseEntity<?> daftarBukuLihat(@RequestBody DaftarBukuLihatRequest request) {
-        return daftarBukuService.daftarBukuLihat(request);
+    public BaseResponse<?> daftarBukuLihat(@RequestBody DaftarBukuLihatRequest request,
+                                           HttpServletRequest httpRequest) {
+        return daftarBukuService.daftarBukuLihat(request, httpRequest);
     }
 
     @PostMapping("/bukuLihatv2")
-    public ResponseEntity<?> daftarBukuLihatv2(@RequestBody DaftarBukuLihatRequest request) {
-        return daftarBukuService.daftarBukuLihatv2(request);
+    public BaseResponse<?> daftarBukuLihatv2(@RequestBody DaftarBukuLihatRequest request,
+                                             HttpServletRequest httpRequest) {
+        return daftarBukuService.daftarBukuLihatv2(request, httpRequest);
     }
 
 }

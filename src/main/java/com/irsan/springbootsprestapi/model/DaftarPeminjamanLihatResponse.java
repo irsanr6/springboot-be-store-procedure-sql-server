@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DaftarBukuSimpanRequest {
+public class DaftarPeminjamanLihatResponse {
 
-    private Integer bukuId;
+    private String peminjamanId;
     private String namaBuku;
-    private Long noIsbn;
+    private String noIsbn;
     private String deskripsi;
     private String keterangan;
 

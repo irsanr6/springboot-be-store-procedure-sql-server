@@ -13,12 +13,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DaftarBukuSimpanRequest {
+public class RegisterRequest {
 
-    private Integer bukuId;
-    private String namaBuku;
-    private Long noIsbn;
-    private String deskripsi;
-    private String keterangan;
+    private String username;
+    private String email;
+    private String password;
 
 }

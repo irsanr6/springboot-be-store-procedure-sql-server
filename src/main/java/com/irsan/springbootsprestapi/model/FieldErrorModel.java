@@ -5,20 +5,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @author: Irsan Ramadhan
  * @email: irsan.ramadhan@iconpln.co.id
  */
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class DaftarBukuSimpanRequest {
+@AllArgsConstructor
+public class FieldErrorModel implements Serializable {
 
-    private Integer bukuId;
-    private String namaBuku;
-    private Long noIsbn;
-    private String deskripsi;
-    private String keterangan;
+    private static final long serialVersionUID = -1601933602938830444L;
+    private String field;
+    private String message;
 
 }
