@@ -1,7 +1,7 @@
 package com.irsan.springbootsprestapi.filter;
 
 import com.irsan.springbootsprestapi.model.MemberPerpusData;
-import com.irsan.springbootsprestapi.service.MemberPerpusDetailServiceImpl;
+import com.irsan.springbootsprestapi.service.MemberPerpusDetailService;
 import com.irsan.springbootsprestapi.utils.Constant;
 import com.irsan.springbootsprestapi.utils.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -29,7 +29,7 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Resource
-    private MemberPerpusDetailServiceImpl memberPerpusDetailService;
+    private MemberPerpusDetailService memberPerpusDetailService;
 
     @Resource
     private JwtTokenUtil jwtTokenUtil;

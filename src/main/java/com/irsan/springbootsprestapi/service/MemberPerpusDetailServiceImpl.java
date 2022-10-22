@@ -19,7 +19,7 @@ import java.util.List;
  * @email: irsan.ramadhan@iconpln.co.id
  */
 @Service
-public class MemberPerpusDetailServiceImpl implements UserDetailsService {
+public class MemberPerpusDetailServiceImpl implements MemberPerpusDetailService {
 
     @Resource
     private EntityManager entityManager;
