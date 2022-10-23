@@ -4,6 +4,7 @@ import com.irsan.springbootsprestapi.model.LoginRequest;
 import com.irsan.springbootsprestapi.model.RegisterRequest;
 import com.irsan.springbootsprestapi.utils.BaseResponse;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -14,4 +15,6 @@ public interface AuthService {
     BaseResponse<?> authenticateUser(LoginRequest loginRequest);
 
     BaseResponse<?> registerUser(RegisterRequest registerRequest) throws IOException;
+
+    BaseResponse<?> checkProfile(HttpServletRequest request);
 }

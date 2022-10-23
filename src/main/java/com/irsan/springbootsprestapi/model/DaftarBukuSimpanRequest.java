@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DaftarBukuSimpanRequest {
 
-    private Integer bukuId;
+    private String bukuId;
     private String namaBuku;
     private Long noIsbn;
     private String deskripsi;

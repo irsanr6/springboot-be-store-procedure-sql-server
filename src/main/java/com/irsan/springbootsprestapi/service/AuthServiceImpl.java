@@ -4,8 +4,9 @@ import com.irsan.springbootsprestapi.model.LoginRequest;
 import com.irsan.springbootsprestapi.model.MemberPerpusData;
 import com.irsan.springbootsprestapi.model.RegisterRequest;
 import com.irsan.springbootsprestapi.utils.BaseResponse;
-import com.irsan.springbootsprestapi.utils.Helpers;
+import com.irsan.springbootsprestapi.utils.DBHandler;
 import com.irsan.springbootsprestapi.utils.JwtTokenUtil;
+import com.irsan.springbootsprestapi.utils.SessionUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,11 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
 
 import static com.irsan.springbootsprestapi.utils.CompressionUtil.compressB64;
 
@@ -28,13 +27,10 @@ import static com.irsan.springbootsprestapi.utils.CompressionUtil.compressB64;
  * @email: irsan.ramadhan@iconpln.co.id
  */
 @Service
-public class AuthServiceImpl implements AuthService {
+public class AuthServiceImpl extends DBHandler implements AuthService {
 
     @Resource
     private AuthenticationManager authenticationManager;
-
-    @Resource
-    private EntityManager entityManager;
 
     @Resource
     private PasswordEncoder passwordEncoder;
@@ -45,20 +41,19 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public BaseResponse<?> authenticateUser(LoginRequest loginRequest) {
         getStringBaseResponse(loginRequest);
-        Query query = entityManager.createNativeQuery("exec spMemberPerpusDetailLihat ?1");
-        query.setParameter(1, loginRequest.getUsernameOrEmail());
-        List<?> data = Arrays.asList((Object[]) query.getSingleResult());
+        Object[] params = {loginRequest.getUsernameOrEmail()};
+        HashMap<String, String> data = getSingleResult("spMemberPerpusDetailLihat", params);
         MemberPerpusData memberPerpusData = MemberPerpusData.builder()
-                .memberId(data.get(0).toString())
-                .namaLengkap(data.get(1).toString())
-                .username(data.get(2).toString())
-                .email(data.get(3).toString())
-                .ttl(data.get(4).toString())
-                .nik(data.get(5).toString())
-                .alamatDomisili(data.get(6).toString())
-                .nomorHandphone(data.get(7).toString())
-                .namaRole(data.get(8).toString())
-                .isAktif(data.get(9).toString())
+                .memberId(data.get("member_id"))
+                .namaLengkap(data.get("nama_lengkap"))
+                .username(data.get("username"))
+                .email(data.get("email"))
+                .ttl(data.get("ttl"))
+                .nik(data.get("nik"))
+                .alamatDomisili(data.get("alamat_domisili"))
+                .nomorHandphone(data.get("nomor_handphone"))
+                .namaRole(data.get("nama_role"))
+                .isAktif(data.get("is_aktif"))
                 .build();
         final String token = jwtTokenUtil.generateToken(memberPerpusData);
         return BaseResponse.ok("Your token access", token);
@@ -76,13 +71,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public BaseResponse<?> registerUser(RegisterRequest registerRequest) throws IOException {
-        Query query = entityManager.createNativeQuery("exec spRegisterMember ?1, ?2, ?3, ?4, ?5");
-        query.setParameter(1, Helpers.generatedMemberId());
-        query.setParameter(2, registerRequest.getUsername());
-        query.setParameter(3, registerRequest.getEmail());
-        query.setParameter(4, passwordEncoder.encode(registerRequest.getPassword()));
-        query.setParameter(5, compressB64(registerRequest.getPassword()));
-        Object data = query.getSingleResult();
-        return BaseResponse.ok(data.toString());
+        Object[] params = {registerRequest.getUsername(), registerRequest.getEmail(), passwordEncoder.encode(registerRequest.getPassword()), compressB64(registerRequest.getPassword())};
+        HashMap<String, String> data = getSingleResult("spRegisterMember", params);
+        return BaseResponse.ok(data.get("data"));
+    }
+
+    @Override
+    public BaseResponse<?> checkProfile(HttpServletRequest request) {
+        MemberPerpusData memberPerpusData = SessionUtil.getMemberPerpusData(request);
+        return BaseResponse.ok(memberPerpusData);
     }
 }

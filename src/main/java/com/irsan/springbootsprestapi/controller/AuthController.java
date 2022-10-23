@@ -5,12 +5,10 @@ import com.irsan.springbootsprestapi.model.RegisterRequest;
 import com.irsan.springbootsprestapi.service.AuthService;
 import com.irsan.springbootsprestapi.utils.BaseResponse;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -32,6 +30,11 @@ public class AuthController {
     @PostMapping("/signup")
     public BaseResponse<?> registerUser(@RequestBody RegisterRequest registerRequest) throws IOException {
         return authService.registerUser(registerRequest);
+    }
+
+    @GetMapping("/profile")
+    public BaseResponse<?> checkProfile(HttpServletRequest request) {
+        return authService.checkProfile(request);
     }
 
 }

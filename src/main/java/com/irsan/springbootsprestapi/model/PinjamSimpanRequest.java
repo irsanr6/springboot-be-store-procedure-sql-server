@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PinjamSimpanRequest {
 
-    private Integer bukuId;
+    private String bukuId;
     private String keterangan;
 
 }
